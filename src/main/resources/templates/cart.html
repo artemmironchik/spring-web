@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+<body>
+<header th:if="${user.role.name} == 'ROLE_USER'" th:insert="~{/blocks/userHeader :: header}"></header>
+<header th:unless="${user.role.name} == 'ROLE_USER'" th:insert="~{/blocks/adminHeader :: header}"></header>
+<br />
+<br />
+<br />
+<div class="flex flex-col gap-3">
+    <div class="grid grid-cols-3 gap-x-3 my-10" th:each="product : ${products}">
+        <img
+                th:src="@{'/content/' + ${product.photo}}" width="150" height="150" th:alt="${product.title}"
+                class="flex justify-self-center filter grayscale border-2 border-black m-auto"
+                alt="Product photo"
+        >
+        <div class="flex flex-col space-y-4 min-w-96 text-2xl m-auto">
+            <p class="font-semibold"><a th:href="@{../profile/{id}(id=${user.id})}" th:text="${product.title}" class="link-dark text-decoration-none"></a></p>
+            <p th:text="${product.description}"></p>
+        </div>
+    </div>
+    <a th:href="@{/products/create}" class="btn btn-primary w-1/2 self-center">Create product</a>
+</div>
+</body>
+</html>
